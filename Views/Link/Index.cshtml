@@ -2,29 +2,9 @@
 @model List<Link>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Homepage";
+    ViewBag.Title= "Maybe we";
 }
 
-<div>
-<table border=1 >
-    <tr>
-        <th>
-            @Html.LabelFor(model => model.FirstOrDefault().OriginalLink)
-        </th>
-        <th>
-            @Html.LabelFor(model => model.FirstOrDefault().ShortLink)
-        </th>
-    </tr>
-@foreach (var link in Model)
-{
-    <tr>
-        @Html.HiddenFor(modelLink => @link.Id)
-        <td>
-            @Html.DisplayFor(modelLink => @link.OriginalLink)
-        </td>
-        <td>
-            @Html.DisplayFor(modelLink => @link.ShortLink)
-        </td>
-    </tr>
-}</table>
-</div>
+@Html.Partial("Create")
+</br>
+@Html.Partial("PrintLink")

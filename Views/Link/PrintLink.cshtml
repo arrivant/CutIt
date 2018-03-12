@@ -1,0 +1,37 @@
+@using CutIt.Models
+@using Microsoft.AspNetCore.Http.Extensions
+@model List<Link>
+
+<div>
+<table border=1 >
+    <tr>
+        <th>
+            @Html.LabelFor(model => model.FirstOrDefault().OriginalLink)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.FirstOrDefault().ShortLink)
+        </th>
+        <th colspan="2">Actions</th>
+    </tr>
+    @foreach (var link in Model)
+    {
+        <tr>
+            @Html.HiddenFor(modelLink => @link.Id)
+            <td>
+                @Html.DisplayFor(modelLink => @link.OriginalLink)
+            </td>
+            <td>
+                <a href="@($"{Context.Request.Scheme}://{Context.Request.Host}")/@link.ShortLink">
+                    @Html.DisplayFor(modelLink => @link.ShortLink)
+                </a>
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "Link", link)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "Update", "Link", link)
+            </td>
+        </tr>
+    }
+</table>
+</div>

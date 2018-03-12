@@ -1,0 +1,9 @@
+@using CutIt.Models
+
+<div>
+    @using (Html.BeginForm("Create", "Link", FormMethod.Post))
+    {
+        <input type="text" name="OriginalLink" placeholder="OriginalLink"/> <br/>
+        <button type="submit">Create</button>
+    }
+</div>
