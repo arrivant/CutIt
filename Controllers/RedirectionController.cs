@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CutIt.Controllers
 {
-    public class LinkRedirectionController
+    public class LinkRedirectionController : Controller
     {
         private ILinkRepository _repository;
 
@@ -14,10 +14,13 @@ namespace CutIt.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
-        public HttpResponseMessage RedirectToOrigin(string shortLink)
+        [Route("{shortLink}")]
+        public ActionResult RedirectPage(string shortLink)
         {
-            Link link = _repository.GetLinks().SingleOrDefault(x => x.ShortLink == shortLink);
+            Link link = _repository.GetLinks().SingleOrDefault(x => x.ShortLink.Equals(shortLink));
+            if(link == null)
+                return Redirect("/");
+            return Redirect(string.Format("http://{0}", link.OriginalLink));
         }
     }
 }

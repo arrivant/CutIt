@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CutIt.Controllers
 {
-    [Route("[controller]")]
-    [Route("[controller]/[action]")]
     public class LinkController : Controller
     {
         private ILinkRepository _repository;
@@ -16,10 +14,7 @@ namespace CutIt.Controllers
         {
             _repository = linkRepository;
         }
-
-        [HttpGet("")]
-        [HttpGet("~/")]
-        [HttpGet("index")]
+        [Route("")]
         [HttpGet("Index")]
         public IActionResult Index()
         {

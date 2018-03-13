@@ -12,8 +12,8 @@ namespace CutIt.Repositories
         public StaticLinkRepository()
         {
             _links = new List<Link>{
-                new Link{Id = 0, OriginalLink = "wp.pl", ShortLink ="F#$F#A"},
-                new Link{Id = 1, OriginalLink = "onet.pl", ShortLink = "F#$FAG#"},
+                new Link{Id = 0, OriginalLink = "www.wp.pl", ShortLink ="WbRAlpo"},
+                new Link{Id = 1, OriginalLink = "www.o2.pl", ShortLink = "60p0mLj"},
             };
         }
 

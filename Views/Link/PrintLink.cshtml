@@ -21,9 +21,13 @@
                 @Html.DisplayFor(modelLink => @link.OriginalLink)
             </td>
             <td>
-                <a href="@($"{Context.Request.Scheme}://{Context.Request.Host}")/@link.ShortLink">
-                    @Html.DisplayFor(modelLink => @link.ShortLink)
-                </a>
+
+                @using (Html.BeginForm("RedirectFormPost", "Redirection", FormMethod.Post, new { target = "_blank" }))
+                {
+                    <a href="/@link.ShortLink" target="_blank">
+                        @Html.DisplayFor(modelLink => @link.ShortLink)
+                    </a>
+                }
             </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", "Link", link)
