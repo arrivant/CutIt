@@ -26,12 +26,18 @@ namespace CutIt.Controllers
         [HttpPost("Create")]
         public IActionResult Create(Link link)
         {
-            var hashids = new Hashids(link.OriginalLink, 7);
-            string hash = hashids.Encode(link.OriginalLink.Length);
-            link.ShortLink = hash;
+            if(ModelState.IsValid){
+                var hashids = new Hashids(link.OriginalLink, 7);
+                string hash = hashids.Encode(link.OriginalLink.Length);
+                link.ShortLink = hash;
 
-            _repository.CreateLink(link);
-            return Redirect("Index");
+                _repository.CreateLink(link);
+
+                return Redirect("Index");
+            }
+
+           var links = _repository.GetLinks();
+           return View("Index", links);
         }
 
         [HttpGet("Edit")]
@@ -42,9 +48,13 @@ namespace CutIt.Controllers
         [HttpPost("Update")]
         public IActionResult Update(Link link)
         {
-            var linkOriginal = _repository.GetLinks().First(l => l.ShortLink == link.ShortLink);
-            linkOriginal.OriginalLink = link.OriginalLink;
-            return Redirect("Index");
+            if(ModelState.IsValid){
+                var linkOriginal = _repository.GetLinks().First(l => l.ShortLink == link.ShortLink);
+                linkOriginal.OriginalLink = link.OriginalLink;
+                return Redirect("Index");
+            }
+            
+            return View("Edit", link);
         }
 
         [HttpGet("Delete")]

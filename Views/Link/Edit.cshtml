@@ -8,8 +8,9 @@
 <div>
     @using (Html.BeginForm("Update", "Link", FormMethod.Post))
     {
-        @Html.TextBoxFor(model => model.OriginalLink);
+        @Html.EditorFor(model => model.OriginalLink);
         @Html.HiddenFor(model => model.ShortLink);
-        <button type="submit">Update</button>
+        <button type="submit">Update</button><br/>
+        @Html.ValidationMessage("OriginalLink", )
     }
 </div>

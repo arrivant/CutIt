@@ -3,7 +3,8 @@
 <div>
     @using (Html.BeginForm("Create", "Link", FormMethod.Post))
     {
-        <input type="text" name="OriginalLink" placeholder="OriginalLink"/> <br/>
-        <button type="submit">Create</button>
+        @Html.Editor("OriginalLink");
+        <button type="submit">Create</button><br/>
+        @Html.ValidationMessage("OriginalLink")
     }
 </div>

@@ -7,7 +7,9 @@ namespace CutIt.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Original Link")]
+        [Url]
+        [Required]
+        [Display(Name = "Link")]
         public string OriginalLink { get; set; }
 
         [Display(Name = "Short Link")]
