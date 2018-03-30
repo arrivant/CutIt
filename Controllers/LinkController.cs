@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CutIt.Models;
 using CutIt.Repositories.Interfaces;
 using HashidsNet;
@@ -14,6 +15,7 @@ namespace CutIt.Controllers
         {
             _repository = linkRepository;
         }
+
         [Route("")]
         [HttpGet("Index")]
         public IActionResult Index()
@@ -26,18 +28,30 @@ namespace CutIt.Controllers
         {
             var hashids = new Hashids(link.OriginalLink, 7);
             string hash = hashids.Encode(link.OriginalLink.Length);
-
             link.ShortLink = hash;
 
             _repository.CreateLink(link);
-            return Redirect("~/");
+            return Redirect("Index");
+        }
+
+        [HttpGet("Edit")]
+        public IActionResult Edit(Link link){
+            return View("Edit", link);
+        }
+
+        [HttpPost("Update")]
+        public IActionResult Update(Link link)
+        {
+            var linkOriginal = _repository.GetLinks().First(l => l.ShortLink == link.ShortLink);
+            linkOriginal.OriginalLink = link.OriginalLink;
+            return Redirect("Index");
         }
 
         [HttpGet("Delete")]
         public IActionResult Delete(Link link)
         {
             _repository.DeleteLink(link);
-            return Redirect("~/");
+            return Redirect("Index");
         }
     }
 }

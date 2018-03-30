@@ -1,0 +1,15 @@
+@using CutIt.Models
+@model Link
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title= "Maybe we";
+}
+
+<div>
+    @using (Html.BeginForm("Update", "Link", FormMethod.Post))
+    {
+        @Html.TextBoxFor(model => model.OriginalLink);
+        @Html.HiddenFor(model => model.ShortLink);
+        <button type="submit">Update</button>
+    }
+</div>
