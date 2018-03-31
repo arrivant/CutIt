@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CutIt
 {
@@ -27,6 +28,8 @@ namespace CutIt
         {
             services.AddMvc();
 
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info{ Title = "CutIt API", Version = "v1" }));
+
             services.AddSingleton<ILinkRepository, StaticLinkRepository>();
         }
 
@@ -36,9 +39,14 @@ namespace CutIt
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }else{
+                app.UseExceptionHandler("/error");
             }
 
             app.UseStaticFiles();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("../swagger/v1/swagger.json", "CutIt API"));
 
             app.UseMvc(routes =>
             {
