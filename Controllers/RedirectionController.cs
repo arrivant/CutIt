@@ -14,13 +14,13 @@ namespace CutIt.Controllers
             _repository = repository;
         }
 
-        [Route("{shortLink}")]
+        [HttpGet("{shortLink}")]
         public ActionResult RedirectPage(string shortLink)
         {
             Link link = _repository.GetLinks().SingleOrDefault(x => x.ShortLink.Equals(shortLink));
             if(link == null)
                 return Redirect("/");
-            return Redirect(string.Format("http://{0}", link.OriginalLink));
+            return Redirect(link.OriginalLink);
         }
     }
 }

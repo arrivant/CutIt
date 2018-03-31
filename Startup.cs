@@ -38,7 +38,12 @@ namespace CutIt
 
             app.UseStaticFiles();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Link}/{action=Index}/{id?}");
+            });
         }
     }
 }

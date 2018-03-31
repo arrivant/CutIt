@@ -16,8 +16,6 @@ namespace CutIt.Controllers
             _repository = linkRepository;
         }
 
-        [Route("")]
-        [HttpGet("Index")]
         public IActionResult Index()
         {
             return View(_repository.GetLinks());
