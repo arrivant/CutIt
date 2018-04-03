@@ -35,7 +35,7 @@ namespace CutIt.Controllers
                 return Redirect("Index");
             }
 
-           var links = _linkRepository.GetLinks();
+           var links = _linkRepository.GetLinks().ToList();
            return View("Index", links);
         }
 

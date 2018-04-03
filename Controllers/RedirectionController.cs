@@ -15,7 +15,7 @@ namespace CutIt.Controllers
             _repository = repository;
         }
 
-        [HttpGet("{shortLink}")]
+        [HttpGet("{shortLink:regex(^\\w+$)}")]
         public ActionResult RedirectPage(string shortLink)
         {
             Link link = _repository.GetLinks().SingleOrDefault(x => x.ShortLink.Equals(shortLink));
