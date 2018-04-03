@@ -17,7 +17,7 @@ namespace CutIt.Repositories
             };
         }
 
-        public List<Link> GetLinks()
+        public IEnumerable<Link> GetLinks()
         {
             return _links;
         }
