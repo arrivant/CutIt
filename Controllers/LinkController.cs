@@ -7,18 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CutIt.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class LinkController : Controller
     {
-        private ILinkRepository _repository;
+        private ILinkRepository _linkRepository;
 
         public LinkController(ILinkRepository linkRepository)
         {
-            _repository = linkRepository;
+            _linkRepository = linkRepository;
         }
 
         public IActionResult Index()
         {
-            return View(_repository.GetLinks());
+            return View(_linkRepository.GetLinks().ToList());
         }
 
         [HttpPost("Create")]
@@ -29,12 +30,12 @@ namespace CutIt.Controllers
                 string hash = hashids.Encode(link.OriginalLink.Length);
                 link.ShortLink = hash;
 
-                _repository.CreateLink(link);
+                _linkRepository.CreateLink(link);
 
                 return Redirect("Index");
             }
 
-           var links = _repository.GetLinks();
+           var links = _linkRepository.GetLinks();
            return View("Index", links);
         }
 
@@ -47,8 +48,7 @@ namespace CutIt.Controllers
         public IActionResult Update(Link link)
         {
             if(ModelState.IsValid){
-                var linkOriginal = _repository.GetLinks().First(l => l.ShortLink == link.ShortLink);
-                linkOriginal.OriginalLink = link.OriginalLink;
+                var linkOriginal = _linkRepository.UpdateLink(link);
                 return Redirect("Index");
             }
             
@@ -58,7 +58,7 @@ namespace CutIt.Controllers
         [HttpGet("Delete")]
         public IActionResult Delete(Link link)
         {
-            _repository.DeleteLink(link);
+            _linkRepository.DeleteLink(link.Id);
             return Redirect("Index");
         }
     }

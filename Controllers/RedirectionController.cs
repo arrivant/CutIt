@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CutIt.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class LinkRedirectionController : Controller
     {
         private ILinkRepository _repository;

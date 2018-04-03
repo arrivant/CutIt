@@ -6,6 +6,7 @@ using CutIt.Repositories;
 using CutIt.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -30,7 +31,9 @@ namespace CutIt
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info{ Title = "CutIt API", Version = "v1" }));
 
-            services.AddSingleton<ILinkRepository, StaticLinkRepository>();
+            services.AddDbContext<CutItDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("CutItDbConnection")));       
+
+            services.AddTransient<ILinkRepository, SqLiteLinkRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

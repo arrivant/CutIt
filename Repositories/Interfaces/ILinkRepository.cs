@@ -5,9 +5,11 @@ namespace CutIt.Repositories.Interfaces
 {
     public interface ILinkRepository
     {
-         List<Link> GetLinks();
-         void CreateLink(Link link);
-         void DeleteLink(Link link);
-         void UpdateLink(Link link);
+         IEnumerable<Link> GetLinks();
+         (IEnumerable<Link>, int) GetLinks(int page, int linksPerPage);
+         Link CreateLink(Link link);
+         Link ReadLink(int id);
+         void DeleteLink(int id);
+         Link UpdateLink(Link link);
     }
 }
