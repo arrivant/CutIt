@@ -2,6 +2,7 @@
 using System.Linq;
 using CutIt.Models;
 using CutIt.Repositories.Interfaces;
+using CutIt.Services.Hasher;
 using HashidsNet;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,12 @@ namespace CutIt.Controllers
     public class LinkController : Controller
     {
         private ILinkRepository _linkRepository;
+        private IHasher _hasher;
 
-        public LinkController(ILinkRepository linkRepository)
+        public LinkController(ILinkRepository linkRepository, IHasher hasher)
         {
             _linkRepository = linkRepository;
+            _hasher = hasher;
         }
 
         public IActionResult Index()
@@ -26,12 +29,8 @@ namespace CutIt.Controllers
         public IActionResult Create(Link link)
         {
             if(ModelState.IsValid){
-                var hashids = new Hashids(link.OriginalLink, 7);
-                string hash = hashids.Encode(link.OriginalLink.Length);
-                link.ShortLink = hash;
-
+                link.ShortLink = _hasher.GetHash(link.OriginalLink);
                 _linkRepository.CreateLink(link);
-
                 return Redirect("Index");
             }
 

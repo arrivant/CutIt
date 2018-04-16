@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CutIt.Models;
 using CutIt.Repositories.Interfaces;
+using CutIt.Services.Hasher;
 using HashidsNet;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,12 @@ namespace CutIt.Controllers
     {
 
         private ILinkRepository _linkRepository;
+        private IHasher _hasher;
 
-        public LinkApiController(ILinkRepository linkRepository)
+        public LinkApiController(ILinkRepository linkRepository, IHasher hasher)
         {
             _linkRepository = linkRepository;
+            _hasher = hasher;
         }
 
         // POST api/links
@@ -28,9 +31,7 @@ namespace CutIt.Controllers
                 return BadRequest(ModelState);
             
             Link link = linkToCreate.GetLink();
-            var hashids = new Hashids(link.OriginalLink, 7);
-            string hash = hashids.Encode(link.OriginalLink.Length);
-            link.ShortLink = hash;
+            link.ShortLink = _hasher.GetHash(link.OriginalLink);
 
             return Ok(_linkRepository.CreateLink(link) != null);
         }

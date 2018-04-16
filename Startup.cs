@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CutIt.Repositories;
 using CutIt.Repositories.Interfaces;
+using CutIt.Services.Hasher;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace CutIt
 
             services.AddDbContext<CutItDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("CutItDbConnection")));       
 
+            services.AddSingleton<IHasher, Hasher>();
             services.AddTransient<ILinkRepository, SqLiteLinkRepository>();
         }
 
