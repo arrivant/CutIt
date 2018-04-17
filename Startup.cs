@@ -30,6 +30,14 @@ namespace CutIt
         {
             services.AddMvc();
 
+            services.AddCors(options => {
+                options.AddPolicy("OpenCorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials() );
+            });
+
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info{ Title = "CutIt API", Version = "v1" }));
 
             services.AddDbContext<CutItDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("CutItDbConnection")));       
@@ -41,6 +49,8 @@ namespace CutIt
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("OpenCorsPolicy");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -58,6 +68,7 @@ namespace CutIt
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Link}/{action=Index}/{id?}");
-            });        }
+            });
+        }
     }
 }
